@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>แบบฟอร์มบันทึกข้อมูลการศึกษา</title>
+  <style>
+    body { font-family: sans-serif; background: #f0f4f8; padding: 2rem; }
+    form { background: white; padding: 2rem; max-width: 600px; margin: auto; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    input, select, textarea { width: 100%; padding: 0.5rem; margin-bottom: 1rem; border: 1px solid #ccc; border-radius: 5px; }
+    button { background: #1e88e5; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #1565c0; }
+  </style>
+</head>
+<body>
+  <form id="educationForm">
+    <h2>บันทึกข้อมูลการศึกษา</h2>
+    <label>ชื่อ - สกุล</label>
+    <input type="text" name="name" required />
+    
+    <label>รหัสนักเรียน</label>
+    <input type="text" name="student_id" required />
+    
+    <label>ระดับชั้น</label>
+    <select name="level">
+      <option value="ม.1">ม.1</option>
+      <option value="ม.2">ม.2</option>
+      <option value="ม.3">ม.3</option>
+      <option value="ม.4">ม.4</option>
+      <option value="ม.5">ม.5</option>
+      <option value="ม.6">ม.6</option>
+    </select>
+
+    <label>สถานะ</label>
+    <select name="status">
+      <option value="เรียนปกติ">เรียนปกติ</option>
+      <option value="พักการเรียน">พักการเรียน</option>
+      <option value="ลาออก">ลาออก</option>
+    </select>
+    
+    <label>หมายเหตุ</label>
+    <textarea name="note" rows="3"></textarea>
+
+    <button type="submit">บันทึก</button>
+  </form>
+
+  <script>
+    document.getElementById("educationForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = {};
+      formData.forEach((value, key) => { data[key] = value });
+
+      fetch("https://script.google.com/macros/s/AKfycbxluS7GXqZpvc_6LdL0ToOrR8CwXwDvvY65qkiWtcANWdpwscW7VIPOJXkL5SPjRCiV/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      }).then(() => {
+        alert("ส่งข้อมูลเรียบร้อยแล้ว");
+        e.target.reset();
+      }).catch(err => alert("เกิดข้อผิดพลาด: " + err));
+    });
+  </script>
+</body>
+</html>
